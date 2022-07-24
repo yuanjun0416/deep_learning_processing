@@ -1,4 +1,6 @@
-# 问题一：如何理解transform.Normlize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+# 代码中所遇到的问题
+
+## 问题一：如何理解transform.Normlize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 答：前面的(0.5, 0.5, 0.5)是RGB三个通道上的均值，后面的(0.5, 0.5, 0.5)是RGB三个通道的标准差
     Normlize对每个通道执行一下操作：image_output = (image_input-mean)/std，参数mean和std分别以0.5和0.5的形式传递，这将使图像在[-1, 1]范围内归一化。
     例如：最小值0：image_output = (0-0.5)/0.5 = -1 ...
@@ -25,7 +27,7 @@
     transform.Normlize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))
     '
 
-# 问题二：如何理解 predict_y = torch.max(outputs, dim=1)[1]中的含义
+## 问题二：如何理解 predict_y = torch.max(outputs, dim=1)[1]中的含义
 答：我们将此代码拆分一下 preidct = torch.max(outputs, dim=1) + predict_y = preidct[1]
     我们先简单看下列的代码
     import torch
