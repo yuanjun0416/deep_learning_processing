@@ -39,23 +39,25 @@ def create_model(num_classes):
 
 
 def main():
+    # 判断当前设备是否有GPU，如果没有就使用CPU，有就使用GPU
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print("Using {} device training.".format(device.type))
 
-    # 用来保存coco_info的文件
+    # 用来保存coco_info的文件 #可以见Meeting_Problem.md文件
     results_file = "results{}.txt".format(datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
 
     # 检查保存权重文件夹是否存在，不存在则创建
     if not os.path.exists("save_weights"):
         os.makedirs("save_weights")
 
+    # data_transform是一个字典，训练集的数据变为tensor数据，并且images和bbox做一个水平翻转，验证集只是将数据变为tensor数据
     data_transform = {
         "train": transforms.Compose([transforms.ToTensor(),
                                      transforms.RandomHorizontalFlip(0.5)]),
         "val": transforms.Compose([transforms.ToTensor()])
     }
 
-    VOC_root = "./"  # VOCdevkit
+    VOC_root = "./"  # VOCdevkit # 数据集的根目录
     aspect_ratio_group_factor = 3
     batch_size = 8
     amp = False  # 是否使用混合精度训练，需要GPU支持
