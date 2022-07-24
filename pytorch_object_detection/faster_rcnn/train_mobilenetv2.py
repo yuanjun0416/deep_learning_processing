@@ -43,7 +43,7 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print("Using {} device training.".format(device.type))
 
-    # 用来保存coco_info的文件 #可以见Meeting_Problem.md文件
+    # 用来保存coco_info的文件 #具体函数的用法可以见Meeting_Problem.md文件
     results_file = "results{}.txt".format(datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
 
     # 检查保存权重文件夹是否存在，不存在则创建
@@ -58,11 +58,11 @@ def main():
     }
 
     VOC_root = "./"  # VOCdevkit # 数据集的根目录
-    aspect_ratio_group_factor = 3
+    aspect_ratio_group_factor = 3   
     batch_size = 8
     amp = False  # 是否使用混合精度训练，需要GPU支持
 
-    # check voc root
+    # check if voc root exists 
     if os.path.exists(os.path.join(VOC_root, "VOCdevkit")) is False:
         raise FileNotFoundError("VOCdevkit dose not in path:'{}'.".format(VOC_root))
 
