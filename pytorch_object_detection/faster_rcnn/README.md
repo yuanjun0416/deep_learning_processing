@@ -22,6 +22,7 @@
   ├── train_multi_GPU.py: 针对使用多GPU的用户使用
   ├── predict.py: 简易的预测脚本，使用训练好的权重进行预测测试
   ├── validation.py: 利用训练好的权重验证/测试数据的COCO指标，并生成record_mAP.txt文件
+  ├── split_data.py: 生成数据集中的Imagesets中的train.txt和val.txt文件
   └── pascal_voc_classes.json: pascal_voc标签文件
 ```
 
