@@ -74,13 +74,13 @@ def main():
     # 是否按图片相似高宽比采样图片组成batch
     # 使用的话能够减小训练时所需GPU显存，默认使用
     if aspect_ratio_group_factor >= 0:
-        train_sampler = torch.utils.data.RandomSampler(train_dataset)
+        train_sampler = torch.utils.data.RandomSampler(train_dataset)  # 具体函数的用法可以见Meeting_Problem.md文件 
         # 统计所有图像高宽比例在bins区间中的位置索引
         group_ids = create_aspect_ratio_groups(train_dataset, k=aspect_ratio_group_factor)
         # 每个batch图片从同一高宽比例区间中取
         train_batch_sampler = GroupedBatchSampler(train_sampler, group_ids, batch_size)
 
-    nw = min([os.cpu_count(), batch_size if batch_size > 1 else 0, 8])  # number of workers
+    nw = min([os.cpu_count(), batch_size if batch_size > 1 else 0, 8])  # number of workers (linux系统中可以用) 多进程读取数据集(没有尝试过，可以尝试一下，如果有报错，可以将其设置为0)
     print('Using %g dataloader workers' % nw)
 
     # 注意这里的collate_fn是自定义的，因为读取的数据包括image和targets，不能直接使用默认的方法合成batch
@@ -115,7 +115,7 @@ def main():
 
     model.to(device)
 
-    scaler = torch.cuda.amp.GradScaler() if amp else None
+    scaler = torch.cuda.amp.GradScaler() if amp else None  # 默认amp = False 不使用混合精度训练数据集，如果使用，可以设置amp = True必须是在GPU上，这样可以有效减少GPU显存的占用
 
     train_loss = []
     learning_rate = []
@@ -126,10 +126,10 @@ def main():
     #  首先冻结前置特征提取网络权重（backbone），训练rpn以及最终预测网络部分 #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     for param in model.backbone.parameters():
-        param.requires_grad = False
+        param.requires_grad = False # backbone网络参数的梯度不变化
 
     # define optimizer
-    params = [p for p in model.parameters() if p.requires_grad]
+    params = [p for p in model.parameters() if p.requires_grad]  # model.parameters()返回的是一个迭代器，迭代器每次迭代的是Tensor类型的数据，具体可以见Meeting_Problem.md
     optimizer = torch.optim.SGD(params, lr=0.005,
                                 momentum=0.9, weight_decay=0.0005)
 
@@ -148,8 +148,8 @@ def main():
         # write into txt
         with open(results_file, "a") as f:
             # 写入的数据包括coco指标还有loss和learning rate
-            result_info = [f"{i:.4f}" for i in coco_info + [mean_loss.item()]] + [f"{lr:.6f}"]
-            txt = "epoch:{} {}".format(epoch, '  '.join(result_info))
+            result_info = [f"{i:.4f}" for i in coco_info + [mean_loss.item()]] + [f"{lr:.6f}"] # 每一轮的coco指标，损失，学习率的一种用法
+            txt = "epoch:{} {}".format(epoch, '  '.join(result_info))    # f"{i:.4f}"和'  '.join(result_info)的用法见Meeting_Problem.md
             f.write(txt + "\n")
 
         val_map.append(coco_info[1])  # pascal mAP
