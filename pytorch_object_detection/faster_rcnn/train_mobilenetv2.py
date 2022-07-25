@@ -199,7 +199,7 @@ def main():
             txt = "epoch:{} {}".format(epoch, '  '.join(result_info))
             f.write(txt + "\n")
 
-        val_map.append(coco_info[1])  # pascal mAP
+        val_map.append(coco_info[1])  # pascal mAP coco指标的第二个指标就是pascal voc的数据集
 
         # save weights
         # 仅保存最后5个epoch的权重
