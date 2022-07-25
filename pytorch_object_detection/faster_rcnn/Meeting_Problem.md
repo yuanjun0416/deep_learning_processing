@@ -31,7 +31,7 @@
    
    链接也有代码介绍，可以感受一下：https://blog.csdn.net/lidc1004/article/details/115005612
    
-### (3) model.parameters()的用法 [one hundred and thirty-two lines]
+### (3) model.parameters()的用法 [traini_mobilenetv2.py: one hundred and thirty-two lines]
    构建一个网络
    ```
    import torch.nn as nn
@@ -89,7 +89,7 @@
            [-0.0518,  0.0329, -0.0005,  0.1160, -0.4402]], requires_grad=True), Parameter containing:
    tensor([-0.1595,  0.2987, -0.0165], requires_grad=True)]
    ```
-### (4) f"{i:.4f}"和'  '.join(result_info)的用法
+### (4) f"{i:.4f}"和'  '.join(result_info)的用法 [train_mobilenetv2.py: one hundred and fifty-two lines]
    f"{i:.4f}"
    ```
    name = '张三'
