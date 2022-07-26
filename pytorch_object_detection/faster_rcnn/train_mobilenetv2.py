@@ -83,7 +83,8 @@ def main():
     nw = min([os.cpu_count(), batch_size if batch_size > 1 else 0, 8])  # number of workers (linux系统中可以用) 多进程读取数据集(没有尝试过，可以尝试一下，如果有报错，可以将其设置为0)
     print('Using %g dataloader workers' % nw)
 
-    # 注意这里的collate_fn是自定义的，因为读取的数据包括image和targets，不能直接使用默认的方法合成batch
+    # 注意这里的collate_fn是自定义的，因为读取的数据包括image和targets，不能直接使用默认的方法合成batch 
+    # collate_fn具体用法可见meeting_problem.md-(7)
     if train_sampler:
         # 如果按照图片高宽比采样图片，dataloader中需要使用batch_sampler
         train_data_loader = torch.utils.data.DataLoader(train_dataset,
