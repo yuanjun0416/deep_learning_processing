@@ -70,7 +70,7 @@ class VOCDataSet(Dataset):
         """
         return len(self.xml_list) 
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx):    # 这里解释一下idx的用法，见[Meeting_Problem.md-(6)]
         # read xml
         xml_path = self.xml_list[idx]
         with open(xml_path) as fid:
@@ -86,7 +86,7 @@ class VOCDataSet(Dataset):
         labels = []
         iscrowd = []
         assert "object" in data, "{} lack of object information.".format(xml_path)
-        for obj in data["object"]:
+        for obj in data["object"]: # 遍历每一个object
             xmin = float(obj["bndbox"]["xmin"])
             xmax = float(obj["bndbox"]["xmax"])
             ymin = float(obj["bndbox"]["ymin"])
@@ -98,8 +98,8 @@ class VOCDataSet(Dataset):
                 continue
             
             boxes.append([xmin, ymin, xmax, ymax])
-            labels.append(self.class_dict[obj["name"]])
-            if "difficult" in obj:
+            labels.append(self.class_dict[obj["name"]])  # 存储的是pascal_voc_classes.json中目标类别所对应的数字
+            if "difficult" in obj:                       # 存储有没有重叠的目标物体
                 iscrowd.append(int(obj["difficult"]))
             else:
                 iscrowd.append(0)
