@@ -43,7 +43,7 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print("Using {} device training.".format(device.type))
 
-    # 用来保存coco_info的文件 #具体函数的用法可以见Meeting_Problem.md文件
+    # 用来保存coco_info的文件 #具体函数的用法可以见[meeting_problem.md-(1)]
     results_file = "results{}.txt".format(datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
 
     # 检查保存权重文件夹是否存在，不存在则创建
@@ -74,7 +74,7 @@ def main():
     # 是否按图片相似高宽比采样图片组成batch
     # 使用的话能够减小训练时所需GPU显存，默认使用
     if aspect_ratio_group_factor >= 0:
-        train_sampler = torch.utils.data.RandomSampler(train_dataset)  # 具体函数的用法可以见Meeting_Problem.md文件 
+        train_sampler = torch.utils.data.RandomSampler(train_dataset)  # 具体函数的用法可以见[meeting_problem.md-(2)] 
         # 统计所有图像高宽比例在bins区间中的位置索引
         group_ids = create_aspect_ratio_groups(train_dataset, k=aspect_ratio_group_factor)
         # 每个batch图片从同一高宽比例区间中取
@@ -129,7 +129,7 @@ def main():
         param.requires_grad = False # backbone网络参数的梯度不变化
 
     # define optimizer
-    params = [p for p in model.parameters() if p.requires_grad]  # model.parameters()返回的是一个迭代器，迭代器每次迭代的是Tensor类型的数据，具体可以见Meeting_Problem.md
+    params = [p for p in model.parameters() if p.requires_grad]  # model.parameters()返回的是一个迭代器，迭代器每次迭代的是Tensor类型的数据，具体可以见[meeting_problem.md-(3)]
     optimizer = torch.optim.SGD(params, lr=0.005,
                                 momentum=0.9, weight_decay=0.0005)
 
@@ -149,7 +149,7 @@ def main():
         with open(results_file, "a") as f:
             # 写入的数据包括coco指标还有loss和learning rate
             result_info = [f"{i:.4f}" for i in coco_info + [mean_loss.item()]] + [f"{lr:.6f}"] # 每一轮的coco指标，损失，学习率的一种用法
-            txt = "epoch:{} {}".format(epoch, '  '.join(result_info))    # f"{i:.4f}"和'  '.join(result_info)的用法见Meeting_Problem.md
+            txt = "epoch:{} {}".format(epoch, '  '.join(result_info))    # f"{i:.4f}"和'  '.join(result_info)的用法见[meeting_problem.md-(4)]
             f.write(txt + "\n")
 
         val_map.append(coco_info[1])  # pascal mAP
