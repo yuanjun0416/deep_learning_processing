@@ -47,7 +47,7 @@ class VOCDataSet(Dataset):
             with open(xml_path) as fid:
                 xml_str = fid.read()
             xml = etree.fromstring(xml_str)
-            data = self.parse_xml_to_dict(xml)["annotation"]    # 可在此处查看data的数据，大概就能明白, 也可见[Meeting_Problem.md-(5)]
+            data = self.parse_xml_to_dict(xml)["annotation"]    # 可在此处查看data的数据，大概就能明白, 也可见[meeting_problem.md-(5)]
             if "object" not in data:
                 print(f"INFO: no objects in {xml_path}, skip this annotation file.")
                 continue
@@ -70,7 +70,7 @@ class VOCDataSet(Dataset):
         """
         return len(self.xml_list) 
 
-    def __getitem__(self, idx):    # 这里解释一下idx的用法，见[Meeting_Problem.md-(6)]
+    def __getitem__(self, idx):    # 这里解释一下idx的用法，见[meeting_problem.md-(6)]
         # read xml
         xml_path = self.xml_list[idx]
         with open(xml_path) as fid:
