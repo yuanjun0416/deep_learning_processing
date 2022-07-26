@@ -120,9 +120,10 @@
 ### (5) data = self.parse_xml_to_dict(xml)["annotation"] 的输出结果形式为什么如下 [my_dataset.py: fifty lines]
    output:
    ```
-   {'folder': 'Fire images', 'filename': '000001.jpg', 'path': './data/VOC2020/JPEGImages/000001.jpg', 'source': {'database': 'Unknown'},
-   'size': {'width': '438', 'height': '289', 'depth': '3'}, 'segmented': '0', 'object': [{'name': 'fire', 'pose': 'Unspecified', 'truncated': '0',
-   'difficult': '0', 'bndbox': {'xmin': '167', 'ymin': '13', 'xmax': '421', 'ymax': '219'}}]}
+   {'folder': 'grassland_fire', 'filename': '002050.jpg', 'path': './data/VOC2020/JPEGImages/002050.jpg', 'source': {'database': 'Unknown'}, 'size': 
+   {'width': '400', 'height': '288', 'depth': '3'}, 'segmented': '0', 'object': [{'name': 'fire', 'pose': 'Unspecified', 'truncated': '0', 'difficult': '0', 
+   'bndbox':  {'xmin': '137', 'ymin': '17', 'xmax': '294', 'ymax': '216'}}, 
+   {'name': 'fire', 'pose': 'Unspecified', 'truncated': '0', 'difficult': '0', 'bndbox': {'xmin': '366', 'ymin': '198', 'xmax': '389', 'ymax': '221'}}]}
    ```
    我们假设一个annotation只有'folder': 'Fire images'和'filename': '000001.jpg', 可以将其对应xml文件
    ```
@@ -150,4 +151,16 @@
                 result[child.tag].append(child_result[child.tag])
         return {xml.tag: result}  # {'annotation': {'folder': 'Fire images', 'filename': '000001.jpg'}}
    ```
+  
+  ### (6) 定义自己的数据集时__getitem__(self, idx)中的idx的用法 [my_dataset.py: seventy-three lines]
+ 
+ idx其实是数据集dataset的索引值，即dataset[idx]， 也就相当于a = ['a', 'b', 'c'] 中a[1] = b，其中的idx=1
+ 
+ * 一、使用torch.utils.data.Dataloader加载数据集的，其中有batch_size,这意味着必然要对所有数据的进行分开打包，所以一定是使用了dataset[idx]中的所有idx, 所以__getitem__中有了所有的idx
    
+   我们现在打印一下idx的值，如
+   
+   Dataloader中参数shuffle=True时
+   ```
+   
+   ```
