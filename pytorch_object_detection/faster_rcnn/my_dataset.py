@@ -212,6 +212,13 @@ class VOCDataSet(Dataset):
 
     @staticmethod
     def collate_fn(batch):
+        """
+        # 解释meeting_problem.md-(7)所用
+        # print(batch)
+        # rint(111111)
+        # image, target = tuple(zip(*batch))
+        # print(22222)
+        """
         return tuple(zip(*batch))
 
 # import transforms
@@ -240,6 +247,18 @@ class VOCDataSet(Dataset):
 #
 # # load train data set
 # train_data_set = VOCDataSet(os.getcwd(), "2012", data_transform["train"], "train.txt")
+""" 
+# 解释meeting_problem.md-(7)所用
+# train_data_loader = torch.utils.data.DataLoader(train_data_set,
+#                                                 batch_size=8,
+#                                                 shuffle=True,
+#                                                 num_workers=0,
+#                                                 collate_fn=train_data_set.collate_fn)
+# for data in train_data_loader: # 其实此处也有学问, data代表着每次输入模型的数据，我们现在看一下data的数据是什么，见[meeting_problem.md-(8)]
+#     image, target = data
+#     print(image)
+#     print(target)
+"""
 # print(len(train_data_set))
 # for index in random.sample(range(0, len(train_data_set)), k=5):
 #     img, target = train_data_set[index]
