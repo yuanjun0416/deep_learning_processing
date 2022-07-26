@@ -117,3 +117,37 @@
    1|2|3
    ```
    
+### (5) data = self.parse_xml_to_dict(xml)["annotation"] 的输出结果形式为什么如下 [my_dataset.py: fifty lines]
+   output:
+   ```
+   {'folder': 'Fire images', 'filename': '000001.jpg', 'path': './data/VOC2020/JPEGImages/000001.jpg', 'source': {'database': 'Unknown'},
+   'size': {'width': '438', 'height': '289', 'depth': '3'}, 'segmented': '0', 'object': [{'name': 'fire', 'pose': 'Unspecified', 'truncated': '0',
+   'difficult': '0', 'bndbox': {'xmin': '167', 'ymin': '13', 'xmax': '421', 'ymax': '219'}}]}
+   ```
+   我们假设一个annotation只有'folder': 'Fire images'和'filename': '000001.jpg', 可以将其对应xml文件
+   ```
+    def parse_xml_to_dict(self, xml):
+        """
+        将xml文件解析成字典形式，参考tensorflow的recursive_parse_xml_to_dict
+        Args:
+            xml: xml tree obtained by parsing XML file contents using lxml.etree
+
+        Returns:
+            Python dictionary holding XML contents.
+        """
+
+        if len(xml) == 0:  # 遍历到底层，直接返回tag对应的信息 例如<folder>Fire images<folder>, 这样len(xml) == 0, return: {'folder': 'Fire images'}
+            return {xml.tag: xml.text}
+
+        result = {}
+        for child in xml:
+            child_result = self.parse_xml_to_dict(child)  # 递归遍历标签信息
+            if child.tag != 'object':
+                result[child.tag] = child_result[child.tag]  # result[folder] = 'Fire images' 、result[filename] = '000001.jpg'
+            else:
+                if child.tag not in result:  # 因为object可能有多个，所以需要放入列表里
+                    result[child.tag] = []
+                result[child.tag].append(child_result[child.tag])
+        return {xml.tag: result}  # {'annotation': {'folder': 'Fire images', 'filename': '000001.jpg'}}
+   ```
+   
