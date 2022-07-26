@@ -6,13 +6,21 @@ import json
 from PIL import Image
 from lxml import etree
 
+# 定义数据集读取参考：https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html
 
 class VOCDataSet(Dataset):
     """读取解析PASCAL VOC2007/2012数据集"""
 
     def __init__(self, voc_root, year="2012", transforms=None, txt_name: str = "train.txt"):
+        """
+        Args:
+            voc_root: 文件根目录
+            transforms: 数据集预处理方式(train and val)
+            txt_name: train.txt:读取的是训练集 val.txt: 读取的是验证集
+        """
+        
         assert year in ["2007", "2012"], "year must be in ['2007', '2012']"
-        # 增加容错能力
+        # 增加容错能力 判断voc_root根目录是否有一个子文件VOCdevkit
         if "VOCdevkit" in voc_root:
             self.root = os.path.join(voc_root, f"VOC{year}")
         else:
@@ -22,24 +30,24 @@ class VOCDataSet(Dataset):
 
         # read train.txt or val.txt file
         txt_path = os.path.join(self.root, "ImageSets", "Main", txt_name)
-        assert os.path.exists(txt_path), "not found {} file.".format(txt_name)
+        assert os.path.exists(txt_path), "not found {} file.".format(txt_name) # 判断是否存在train.txt或者val.txt
 
-        with open(txt_path) as read:
+        with open(txt_path) as read: # 得到annotation的文件列表, train.txt: 00000 -> xml_list: 000000.xml
             xml_list = [os.path.join(self.annotations_root, line.strip() + ".xml")
                         for line in read.readlines() if len(line.strip()) > 0]
 
         self.xml_list = []
         # check file
-        for xml_path in xml_list:
+        for xml_path in xml_list:   # 滤除掉xml_list中不存在的xml文件，并将其存入self.xml_list中
             if os.path.exists(xml_path) is False:
                 print(f"Warning: not found '{xml_path}', skip this annotation file.")
                 continue
 
-            # check for targets
+            # check for targets     # 一个读取xml文件的基本步骤，判断annotation file中有没有目标，如果没有，则舍弃该文件
             with open(xml_path) as fid:
                 xml_str = fid.read()
             xml = etree.fromstring(xml_str)
-            data = self.parse_xml_to_dict(xml)["annotation"]
+            data = self.parse_xml_to_dict(xml)["annotation"]    # 可在此处查看data的数据，大概就能明白, 也可见[Meeting_Problem.md-(5)]
             if "object" not in data:
                 print(f"INFO: no objects in {xml_path}, skip this annotation file.")
                 continue
@@ -57,7 +65,10 @@ class VOCDataSet(Dataset):
         self.transforms = transforms
 
     def __len__(self):
-        return len(self.xml_list)
+        """
+        return：数据集的个数
+        """
+        return len(self.xml_list) 
 
     def __getitem__(self, idx):
         # read xml
@@ -112,7 +123,11 @@ class VOCDataSet(Dataset):
 
         return image, target
 
-    def get_height_and_width(self, idx):
+    def get_height_and_width(self, idx): 
+        """
+        获取图片的高度和宽度，如果未提供该方法，我们将通过__getitem__查询数据集的所有元素，这会将图像加载到内存中，并且比提供自定义方法时要慢
+        """
+        
         # read xml
         xml_path = self.xml_list[idx]
         with open(xml_path) as fid:
