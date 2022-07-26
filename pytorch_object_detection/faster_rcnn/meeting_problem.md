@@ -169,3 +169,27 @@
    ![shuffle_False](meeting_problem_images/shuffle_False.png)
    ```
 * 二、可以直接参考mydataset.py中two hundred and forty-five lines code
+
+### (7) 本代码中torch.utils.data.DataLoader中参数collate_fn的用法 [train_mobilenetv2.py: ninety-four lines]
+
+   链接是解释collate_fn的具体含义： https://blog.csdn.net/qq_43391414/article/details/120462055
+
+   在`mydataset.py`中定义的collate_fn函数 `[215-220 lines]`是解释为什么要用collate_fn
+   
+   先看一下，没有使用自定义的collate_fn, 也就是`[217 lines]`, 即直接打印 print(batch)
+   ![batch_without_coffate_fn](meeting_problem_images/batch_without_collate_fn.png)
+   
+   再看一下经过collate_fn之后模型的输入, `[219 lines]`, 即image和target
+   ![image_collate_fn](meeting_problem_images/image_collate_fn.png)
+   ![target_collate_fn](meeting_problem_images/target_collate_fn.png)
+   
+   
+### (8) 在经过batch_size = 8之后，train_data_loader = torch.utils.data.DataLoader(...)之后, image, target = data for data in train_data_loader中, data也就是模型的输入 [mydataset.py: 257 lines]
+
+   我们看一下模型的输入是什么样子的，也就是image和target
+   ![image_collate_fn](meeting_problem_images/image_collate_fn.png)
+   ![target_collate_fn](meeting_problem_images/target_collate_fn.png)
+   
+   显而易见，模型的输入是`[batch_size, C, H, W]`
+   
+   
