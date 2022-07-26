@@ -1,4 +1,4 @@
-# Meeting_Problem（本人初学）
+# meeting_problem（本人初学）
 
 ### (1) results_file = "results{}.txt".format(datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))的含义 [train_mobilenetv2.py: forty-six lines]
    我们可以尝试使用以下代码解释一下
@@ -156,11 +156,16 @@
  
  idx其实是数据集dataset的索引值，即dataset[idx]， 也就相当于a = ['a', 'b', 'c'] 中a[1] = b，其中的idx=1
  
- * 一、使用torch.utils.data.Dataloader加载数据集的，其中有batch_size,这意味着必然要对所有数据的进行分开打包，所以一定是使用了dataset[idx]中的所有idx, 所以__getitem__中有了所有的idx
+ * 一、使用torch.utils.data.DataLoader加载数据集的，其中有batch_size,这意味着必然要对所有数据的进行分开打包，所以一定是使用了dataset[idx]中的所有idx, 所以__getitem__中有了所有的idx
    
    我们现在打印一下idx的值，如
-   
-   Dataloader中参数shuffle=True时
+   ![print_idx](meeting_problem_images/print_idx.png)
+   DataLoader中参数shuffle=True时
    ```
-   
+   ![shuffle_True](meeting_problem_images/shuffle_True.png)
    ```
+   DataLoader中参数shuffle=False时
+   ```
+   ![shuffle_False](meeting_problem_images/shuffle_False.png)
+   ```
+* 二、可以直接参考mydataset.py中two hundred and forty-five lines code
