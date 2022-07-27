@@ -118,6 +118,12 @@
    ```
    
 ### (5) data = self.parse_xml_to_dict(xml)["annotation"] 的输出结果形式为什么如下 [my_dataset.py: fifty lines]
+   
+   xml:
+   ```
+   <Element annotation at 0x23f6c4c8780>
+   ```
+   
    output:
    ```
    {'folder': 'grassland_fire', 'filename': '002050.jpg', 'path': './data/VOC2020/JPEGImages/002050.jpg', 'source': {'database': 'Unknown'}, 'size': 
@@ -141,7 +147,7 @@
             return {xml.tag: xml.text}
 
         result = {}
-        for child in xml:
+        for child in xml: 
             child_result = self.parse_xml_to_dict(child)  # 递归遍历标签信息
             if child.tag != 'object':
                 result[child.tag] = child_result[child.tag]  # result[folder] = 'Fire images' 、result[filename] = '000001.jpg'
