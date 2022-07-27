@@ -159,15 +159,17 @@
  * 一、使用torch.utils.data.DataLoader加载数据集的，其中有batch_size,这意味着必然要对所有数据的进行分开打包，所以一定是使用了dataset[idx]中的所有idx, 所以__getitem__中有了所有的idx
    
    我们现在打印一下idx的值，如
+   
    ![print_idx](meeting_problem_images/print_idx.png)
+   
    DataLoader中参数shuffle=True时
-   ```
+   
    ![shuffle_True](meeting_problem_images/shuffle_True.png)
-   ```
+   
    DataLoader中参数shuffle=False时
-   ```
+   
    ![shuffle_False](meeting_problem_images/shuffle_False.png)
-   ```
+   
 * 二、可以直接参考mydataset.py中two hundred and forty-five lines code
 
 ### (7) 本代码中torch.utils.data.DataLoader中参数collate_fn的用法 [train_mobilenetv2.py: ninety-four lines]
