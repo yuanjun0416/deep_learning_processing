@@ -128,6 +128,29 @@ cfg_path = "./cfg/yolov3-spp.cfg"
 * 将pascal_voc数据集存放在data文件下, 或者修改trans_voc2yolo.py中数据集的路径
 * 需要新建一个weights文件夹，然后将下载好的权重放在其中，并修改train.py中__name__ == '__main__'的一个提示为预训练权重的文件地址
 * 直接使用train.py脚本就可以
+* 注意：假设pascol_voc数据集的形式如下
+  ```
+  ├── VOCdevkit
+      ├── VOC2012
+          ├── Annotations
+          └── JPEGImages
+  ```
+  需要进行如下的改变(如果直接下方形式的文件夹，则可以直接跳过)
+   ```
+   创建形如下方的文件夹形式
+   ├── VOCdevkit
+       ├── VOC2012
+           ├── Annotations
+           ├── JPEGImages
+           └── ImageSets
+               └── Main
+                   ├── train.txt 注意: 其中的每一行都是诸如`000001`形式的
+                   └── val.txt
+   ```
+   其中，`train.txt`和`val.txt`文件需要使用`split_data.py`如下方法制作，见下方链接(如存在`train.txt`和`val.txt`文件，则跳过)
+   [https://github.com/yuanjun0416/pytorch_basic_operation/blob/main/VOC_data_processing/split_data.py](https://github.com/yuanjun0416/pytorch_basic_operation/blob/main/VOC_data_processing/split_data.py)
+   
+
 
 ## 如果对YOLOv3 SPP网络原理不是很理解可参考我的bilibili
 [https://www.bilibili.com/video/BV1yi4y1g7ro?p=3](https://www.bilibili.com/video/BV1yi4y1g7ro?p=3)
