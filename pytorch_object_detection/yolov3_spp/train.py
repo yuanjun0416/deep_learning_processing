@@ -272,7 +272,7 @@ if __name__ == '__main__':
     parser.add_argument('--data', type=str, default='data/my_data.data', help='*.data path')
     parser.add_argument('--hyp', type=str, default='cfg/hyp.yaml', help='hyperparameters path')
     parser.add_argument('--multi-scale', type=bool, default=True,
-                        help='adjust (67%% - 150%%) img_size every 10 batches')
+                        help='adjust (67%% - 150%%) img_size every 10 batches')  # 模型输入图片的多尺度, test size 的(67%-150%)
     parser.add_argument('--img-size', type=int, default=512, help='test size')
     parser.add_argument('--rect', action='store_true', help='rectangular training')
     parser.add_argument('--savebest', type=bool, default=False, help='only save best checkpoint')
