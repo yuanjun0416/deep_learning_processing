@@ -123,6 +123,10 @@ cfg_path = "./cfg/yolov3-spp.cfg"
 * 若要使用多GPU训练，使用`python -m torch.distributed.launch --nproc_per_node=8 --use_env train_multi_GPU.py`指令,`nproc_per_node`参数为使用GPU数量
 * 训练过程中保存的`results.txt`是每个epoch在验证集上的COCO指标，前12个值是COCO指标，后面两个值是训练平均损失以及学习率
 
+## 8 训练自己的数据集（假如是pascal_voc格式的数据集）
+* 只要完成步骤4和步骤5就可以
+* 直接使用train.py脚本就可以
+
 ## 如果对YOLOv3 SPP网络原理不是很理解可参考我的bilibili
 [https://www.bilibili.com/video/BV1yi4y1g7ro?p=3](https://www.bilibili.com/video/BV1yi4y1g7ro?p=3)
 
