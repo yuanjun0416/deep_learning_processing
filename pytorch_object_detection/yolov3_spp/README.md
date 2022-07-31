@@ -35,7 +35,8 @@
   ├── calculate_dataset.py: 1)统计训练集和验证集的数据并生成相应.txt文件
   │                         2)创建data.data文件
   │                         3)根据yolov3-spp.cfg结合数据集类别数创建my_yolov3.cfg文件
-  └── predict_test.py: 简易的预测脚本，使用训练好的权重进行预测测试
+  ├── predict_test.py: 简易的预测脚本，使用训练好的权重进行预测测试
+  └── meeting_problem.md: some confusion when understanding the code
 ```
 
 ## 3 训练数据的准备以及目录结构
