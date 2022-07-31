@@ -25,7 +25,9 @@ def calculate_data_txt(txt_path, dataset_dir):
                 continue
 
             img_path = os.path.join(dataset_dir.replace("labels", "images"),
-                                    file_name.split(".")[0]) + ".jpg"
+                                    file_name.split(".")[0]) + ".jpg"    # find the corresponding image path in train/images
+            # img_path = dataset_dir.replace("labels", "images") + "/" + file_name.split(".")[0] + ".jpg"   # detail usage: view [meeting_problem.md-(1)]
+            
             line = img_path + "\n"
             assert os.path.exists(img_path), "file:{} not exist!".format(img_path)
             w.write(line)
@@ -51,14 +53,14 @@ def change_and_create_cfg_file(classes_info, save_cfg_path="./cfg/my_yolov3.cfg"
     for i in filters_lines:
         assert "filters" in cfg_lines[i-1], "filters param is not in line:{}".format(i-1)
         output_num = (5 + len(classes_info)) * 3
-        cfg_lines[i-1] = "filters={}\n".format(output_num)
+        cfg_lines[i-1] = "filters={}\n".format(output_num)   # modify the number of channels at the end of the entire model: (4+1+len(classes))*3
 
     for i in classes_lines:
         assert "classes" in cfg_lines[i-1], "classes param is not in line:{}".format(i-1)
-        cfg_lines[i-1] = "classes={}\n".format(len(classes_info))
+        cfg_lines[i-1] = "classes={}\n".format(len(classes_info))  # modify the number of classes detected by the model
 
     with open(save_cfg_path, "w") as w:
-        w.writelines(cfg_lines)
+        w.writelines(cfg_lines)   # save result in save_cfg_path="./cfg/my_yolov3.cfg"
 
 
 def main():
