@@ -136,8 +136,9 @@ def translate_info(file_names: list, save_root: str, class_dict: dict, train_val
                 info = [str(i) for i in [class_index, xcenter, ycenter, w, h]]   # [class, x ,y, w, h]
 
                 if index == 0:
-                    f.write(" ".join(info))     # object = 1
-                else:
+                    f.write(" ".join(info))     # object = 1   
+                # detail useage(" ".join(info)): https://github.com/yuanjun0416/deep_learning_processing/blob/main/pytorch_object_detection/faster_rcnn/meeting_problem.md
+                else: 
                     f.write("\n" + " ".join(info))   # object more than one
 
         # copy image into save_images_path
