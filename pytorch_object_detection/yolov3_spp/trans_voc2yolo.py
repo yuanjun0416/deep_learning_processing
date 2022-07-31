@@ -40,6 +40,7 @@ if os.path.exists(save_file_root) is False:
     os.makedirs(save_file_root)
 
 
+# 该函数可见本仓库中faster rcnn中的meeting_problem.md文件
 def parse_xml_to_dict(xml):
     """
     将xml文件解析成字典形式，参考tensorflow的recursive_parse_xml_to_dict
@@ -74,10 +75,10 @@ def translate_info(file_names: list, save_root: str, class_dict: dict, train_val
     :param train_val:
     :return:
     """
-    save_txt_path = os.path.join(save_root, train_val, "labels")
+    save_txt_path = os.path.join(save_root, train_val, "labels")          # 数据集标签保存路径
     if os.path.exists(save_txt_path) is False:
         os.makedirs(save_txt_path)
-    save_images_path = os.path.join(save_root, train_val, "images")
+    save_images_path = os.path.join(save_root, train_val, "images")       # 数据集图片保存路径
     if os.path.exists(save_images_path) is False:
         os.makedirs(save_images_path)
 
@@ -113,14 +114,14 @@ def translate_info(file_names: list, save_root: str, class_dict: dict, train_val
                 ymin = float(obj["bndbox"]["ymin"])
                 ymax = float(obj["bndbox"]["ymax"])
                 class_name = obj["name"]
-                class_index = class_dict[class_name] - 1  # 目标id从0开始
+                class_index = class_dict[class_name] - 1  # 目标id从0开始(在标注pascol_voc_josn文件时是从1开始的)
 
                 # 进一步检查数据，有的标注信息中可能有w或h为0的情况，这样的数据会导致计算回归loss为nan
                 if xmax <= xmin or ymax <= ymin:
                     print("Warning: in '{}' xml, there are some bbox w/h <=0".format(xml_path))
                     continue
 
-                # 将box信息转换到yolo格式
+                # 将box信息转换到yolo格式(x, y, w, h)
                 xcenter = xmin + (xmax - xmin) / 2
                 ycenter = ymin + (ymax - ymin) / 2
                 w = xmax - xmin
@@ -132,12 +133,12 @@ def translate_info(file_names: list, save_root: str, class_dict: dict, train_val
                 w = round(w / img_width, 6)
                 h = round(h / img_height, 6)
 
-                info = [str(i) for i in [class_index, xcenter, ycenter, w, h]]
+                info = [str(i) for i in [class_index, xcenter, ycenter, w, h]]   # [class, x ,y, w, h]
 
                 if index == 0:
-                    f.write(" ".join(info))
+                    f.write(" ".join(info))     # object = 1
                 else:
-                    f.write("\n" + " ".join(info))
+                    f.write("\n" + " ".join(info))   # object more than one
 
         # copy image into save_images_path
         path_copy_to = os.path.join(save_images_path, img_path.split(os.sep)[-1])
@@ -146,13 +147,16 @@ def translate_info(file_names: list, save_root: str, class_dict: dict, train_val
 
 
 def create_class_names(class_dict: dict):
-    keys = class_dict.keys()
+    """
+    将pascal_voc_class.josn转化为my_data_label.name
+    """
+    keys = class_dict.keys()  # gain all keys in pascal_voc_labels.josn
     with open("./data/my_data_label.names", "w") as w:
         for index, k in enumerate(keys):
             if index + 1 == len(keys):
-                w.write(k)
+                w.write(k)    # object = 1 or currently k is last object
             else:
-                w.write(k + "\n")
+                w.write(k + "\n")   # object more than one or currently k is not last object
 
 
 def main():
