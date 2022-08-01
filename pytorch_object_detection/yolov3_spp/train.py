@@ -269,10 +269,10 @@ if __name__ == '__main__':
     parser.add_argument('--epochs', type=int, default=30)
     parser.add_argument('--batch-size', type=int, default=4)
     parser.add_argument('--cfg', type=str, default='cfg/my_yolov3.cfg', help="*.cfg path")
-    parser.add_argument('--data', type=str, default='data/my_data.data', help='*.data path')
-    parser.add_argument('--hyp', type=str, default='cfg/hyp.yaml', help='hyperparameters path')
+    parser.add_argument('--data', type=str, default='data/my_data.data', help='*.data path')  # The storage path after the dataset is converted from pascal_voc to yolo format
+    parser.add_argument('--hyp', type=str, default='cfg/hyp.yaml', help='hyperparameters path') 
     parser.add_argument('--multi-scale', type=bool, default=True,
-                        help='adjust (67%% - 150%%) img_size every 10 batches')  # 模型输入图片的多尺度, test size 的(67%-150%)
+                        help='adjust (67%% - 150%%) img_size every 10 batches')  # mutiple sizes of input images for the model, (67%-150%) of test size
     parser.add_argument('--img-size', type=int, default=512, help='test size')
     parser.add_argument('--rect', action='store_true', help='rectangular training')
     parser.add_argument('--savebest', type=bool, default=False, help='only save best checkpoint')
@@ -282,8 +282,8 @@ if __name__ == '__main__':
                         help='initial weights path')
     parser.add_argument('--name', default='', help='renames results.txt to results_name.txt if supplied')
     parser.add_argument('--device', default='cuda:0', help='device id (i.e. 0 or 0,1 or cpu)')
-    parser.add_argument('--single-cls', action='store_true', help='train as single-class dataset')
-    parser.add_argument('--freeze-layers', type=bool, default=False, help='Freeze non-output layers')
+    parser.add_argument('--single-cls', action='store_true', help='train as single-class dataset')  # only one object in dataset
+    parser.add_argument('--freeze-layers', type=bool, default=False, help='Freeze non-output layers')  # frozen model parameters are different
     # 是否使用混合精度训练(需要GPU支持混合精度)
     parser.add_argument("--amp", default=False, help="Use torch.cuda.amp for mixed precision training")
     opt = parser.parse_args()
