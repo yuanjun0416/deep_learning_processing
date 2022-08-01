@@ -18,7 +18,7 @@ def train(hyp):
     print("Using {} device training.".format(device.type))
 
     wdir = "weights" + os.sep  # weights dir
-    best = wdir + "best.pt"
+    best = wdir + "best.pt"  ## save the weight parameter with the highest MAP
     results_file = "results{}.txt".format(datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
 
     cfg = opt.cfg
@@ -36,11 +36,13 @@ def train(hyp):
     gs = 32  # (pixels) grid size
     assert math.fmod(imgsz_test, gs) == 0, "--img-size %g must be a %g-multiple" % (imgsz_test, gs)
     grid_min, grid_max = imgsz_test // gs, imgsz_test // gs
+    ## the minimum and maximun size of input size for the training dataset
     if multi_scale:
         imgsz_min = opt.img_size // 1.5
         imgsz_max = opt.img_size // 0.667
 
         # 将给定的最大，最小输入尺寸向下调整到32的整数倍
+        ## the minimum and maximun size of input size for the training dataset are adjusted to an integer mutiple of 32
         grid_min, grid_max = imgsz_min // gs, imgsz_max // gs
         imgsz_min, imgsz_max = int(grid_min * gs), int(grid_max * gs)
         imgsz_train = imgsz_max  # initialize with max size
@@ -65,6 +67,7 @@ def train(hyp):
     # 是否冻结权重，只训练predictor的权重
     if opt.freeze_layers:
         # 索引减一对应的是predictor的索引，YOLOLayer并不是predictor
+        ## if you don't understand, you can set breakpoints, view the value of the model and directly find the YOLOLayer layer and the layer above it
         output_layer_indices = [idx - 1 for idx, module in enumerate(model.module_list) if
                                 isinstance(module, YOLOLayer)]
         # 冻结除predictor和YOLOLayer外的所有层
@@ -98,7 +101,7 @@ def train(hyp):
     if weights.endswith(".pt") or weights.endswith(".pth"):
         ckpt = torch.load(weights, map_location=device)
 
-        # load model
+        # load model ## ju
         try:
             ckpt["model"] = {k: v for k, v in ckpt["model"].items() if model.state_dict()[k].numel() == v.numel()}
             model.load_state_dict(ckpt["model"], strict=False)
@@ -298,5 +301,5 @@ if __name__ == '__main__':
         hyp = yaml.load(f, Loader=yaml.FullLoader)
 
     print('Start Tensorboard with "tensorboard --logdir=runs", view at http://localhost:6006/')
-    tb_writer = SummaryWriter(comment=opt.name)
+    tb_writer = SummaryWriter(comment=opt.name) # detail usage: [meeting_problem.md-(2)]
     train(hyp)
