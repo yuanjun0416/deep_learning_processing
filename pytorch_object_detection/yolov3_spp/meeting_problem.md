@@ -17,3 +17,17 @@ result:
   ```
   ./my_yolo_dataset/train/images/2008_000008.jpg
   ```
+
+### (2) A brief introduction to how tensorboard are used [train.py: three hundered and one line]
+
+first: create SummaryWriter
+  ```
+  from tensorboardX import SummaryWriter
+  #SummaryWriter压缩（包括）了所有内容
+  writer = SummaryWriter('runs/exp-1')
+  #创建writer object，log会被存入'runs/exp-1'
+  writer2 = SummaryWriter()
+  #用自动生成的文件名，文件夹类似'runs/Aug20-17-20-33'
+  writer3 = SummaryWriter(comment='3x learning rate')
+  #用自动生成的文件名创建writer3 object，注释（comment）会被加在文件名的后面。文件夹类似 'runs/Aug20-17-20-33-3xlearning rate'
+  ```
