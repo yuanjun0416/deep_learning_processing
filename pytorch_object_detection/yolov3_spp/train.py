@@ -101,15 +101,16 @@ def train(hyp):
     if weights.endswith(".pt") or weights.endswith(".pth"):
         ckpt = torch.load(weights, map_location=device)
 
-        # load model ## ju
+        # load model ## determine whether the parameters of model.state_dict() are the same as the number of the parameters of the ckpt
         try:
             ckpt["model"] = {k: v for k, v in ckpt["model"].items() if model.state_dict()[k].numel() == v.numel()}
-            model.load_state_dict(ckpt["model"], strict=False)
+            model.load_state_dict(ckpt["model"], strict=False)  ## set breakpoint: ckpt["model"] is equivalent to model.state_dict()
         except KeyError as e:
             s = "%s is not compatible with %s. Specify --weights '' or specify a --cfg compatible with %s. " \
                 "See https://github.com/ultralytics/yolov3/issues/657" % (opt.weights, opt.cfg, opt.weights)
             raise KeyError(s) from e
-
+        
+        ## the weight folder is the weight of the model the has been trained
         # load optimizer
         if ckpt["optimizer"] is not None:
             optimizer.load_state_dict(ckpt["optimizer"])
@@ -131,10 +132,10 @@ def train(hyp):
         if opt.amp and "scaler" in ckpt:
             scaler.load_state_dict(ckpt["scaler"])
 
-        del ckpt
+        del ckpt  ## delete variable ckpt and the value in ckpt
 
     # Scheduler https://arxiv.org/pdf/1812.01187.pdf
-    lf = lambda x: ((1 + math.cos(x * math.pi / epochs)) / 2) * (1 - hyp["lrf"]) + hyp["lrf"]  # cosine
+    lf = lambda x: ((1 + math.cos(x * math.pi / epochs)) / 2) * (1 - hyp["lrf"]) + hyp["lrf"]  # cosine ## deteail usage: [meeting_problem.md-(4)]
     scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda=lf)
     scheduler.last_epoch = start_epoch  # 指定从哪个epoch开始
 
