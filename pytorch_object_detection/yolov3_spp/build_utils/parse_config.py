@@ -59,8 +59,15 @@ def parse_model_cfg(path: str):
 
 
 def parse_data_cfg(path):
-    # Parses the data configuration file
-    if not os.path.exists(path) and os.path.exists('data' + os.sep + path):  # add data/ prefix if omitted
+    # Parses the data configuration file 
+    """
+    convert the content in path to dictionary form
+    Arg:
+       path: data/my_data.data
+    return:
+       dict: data/my_data.data -> dict  
+    """
+    if not os.path.exists(path) and os.path.exists('data' + os.sep + path):  # add data/ prefix if omitted ## detail usage: [meeting_problem.md-(3)]
         path = 'data' + os.sep + path
 
     with open(path, 'r') as f:
