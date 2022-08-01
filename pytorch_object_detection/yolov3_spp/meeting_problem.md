@@ -91,4 +91,5 @@ second: just run the following code directly
   plt.show()
   ```
 result:
+
 ![lambda_second_result](meeting_problem_images/lambda_second_result.png)
