@@ -64,7 +64,8 @@ first: you can directly uncomment the following comments in the original code, a
     # model.yolo_layers = model.module.yolo_layers
   ```
 result:
-![lambda_first_result](meeting_peoblem_images/lambda_first_result.png)
+
+![lambda_first_result](meeting_problem_images/lambda_first_result.png)
 
 second: just run the following code directly
   ```
