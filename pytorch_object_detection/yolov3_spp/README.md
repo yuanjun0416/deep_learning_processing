@@ -12,7 +12,7 @@
 ```
   ├── cfg: 配置文件目录
   │    ├── hyp.yaml: 训练网络的相关超参数
-  │    └── yolov3-spp.cfg: yolov3-spp网络结构配置 
+  │    └── yolov3-spp.cfg: yolov3-spp网络结构配置  [detail usage: meeting_problem.md-(5)]
   │ 
   ├── data: 存储训练时数据集相关信息缓存
   │    └── pascal_voc_classes.json: pascal voc数据集标签
