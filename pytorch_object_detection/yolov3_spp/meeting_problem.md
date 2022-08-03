@@ -44,7 +44,7 @@ result:
 
 There are two ways to show it here, the second one is better to understand.
 
-first: you can directly uncomment the following comments in the original code, and than set the breakpoint, the picture will be saved in 'LR.png'
+* first: you can directly uncomment the following comments in the original code, and than set the breakpoint, the picture will be saved in 'LR.png'
   ```
   lf = lambda x: ((1 + math.cos(x * math.pi / epochs)) / 2) * (1 - hyp["lrf"]) + hyp["lrf"]  # cosine ## deteail usage: [meeting_problem.md-(4)]
     scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda=lf)
@@ -67,7 +67,7 @@ result:
 
 ![lambda_first_result](meeting_problem_images/lambda_first_result.png)
 
-second: just run the following code directly
+* second: just run the following code directly
   ```
   import math
   import numpy as np
@@ -96,7 +96,7 @@ result:
 
 ### (5) `yolov3_spp.cfg` parse file [yolov3_spp.cfg]
 
-first:
+* first:
   ```
   [convolutional]     ## convolutional layer
   batch_normalize=1   ## BN layer: 1 means uses, 0 means don't use (note: If used, the bias of the convolutional layer should be to set False)
@@ -106,19 +106,19 @@ first:
   pad=1               ## the padding of the convolutional kernel (whether enable to padding, if it is 1, padding=kernel//2, if it is 0, padding=0)
   activation=leaky    ## activation function
   ```
-second: (you can see the residual block in yolov3spp.png)
+* second: (you can see the residual block in yolov3spp.png)
   ```
   [shortcut]          ## shortcut connection(equivalent to methods of constructing Residual block) 
   from=-3             ## Fusion with the output of the previous "from=-3" layer
   activation=linear   ## Linear activation(do nothing to the output) (equivalent to "y=x")
   ```
-thrid: (you can see the spp in yolov3spp.png)
+* thrid: (you can see the spp in yolov3spp.png)
   ```
   [maxpool]           ## maxpool layer
   stride=1            ## the stride of the maxpool layer
   size=5              ## the size of the maxpool layer  (the padding of the maxpool layer: padding = (size-1)/2)
   ```
-forth: (you can see the spp in yolov3spp.png)
+* forth: (you can see the spp in yolov3spp.png)
   ```
   there are two cases
   
@@ -130,12 +130,12 @@ forth: (you can see the spp in yolov3spp.png)
   [route]             ## splicing multi-layer output (concatenate)
   layers=-1,-3,-5,-6
   ```
-fifth:
+* fifth:
   ```
   [upsample]          ## unsample layer
   stride=2            ## unsample layer magnification
   ```
-sixth:
+* sixth:
   ```
   [yolo]
   mask = 0,1,2       ## 0, 1, 2 of the nine anchors are used
@@ -147,3 +147,71 @@ sixth:
   truth_thresh = 1
   random=1
   ```
+
+### (6) `module = nn.Sequential()` detial usage   [model.py: twenty-six line]
+
+Different implementations of the `Sequential` class (three)
+
+* first——simplest sequential model
+  ```
+  import torch.nn as nn
+  model = nn.Sequential(
+                    nn.Conv2d(1,20,5),
+                    nn.ReLU(),
+                    nn.Conv2d(20,64,5),
+                    nn.ReLU()
+                  )
+
+  print(model)
+  print(model[2]) # 通过索引获取第几个层
+  '''
+  running result：
+  Sequential(
+    (0): Conv2d(1, 20, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): Conv2d(20, 64, kernel_size=(5, 5), stride=(1, 1))
+    (3): ReLU()
+  )
+  Conv2d(20, 64, kernel_size=(5, 5), stride=(1, 1))
+  '''
+  ```
+  note:
+  
+  there is a problem with this, each layer has no name, it is nameed by 0, 1, 2, 3 by default, as can be seen from the above running results
+
+* second——Add a name to each layer
+  ```
+  import torch.nn as nn
+  from collections import OrderedDict
+  model = nn.Sequential(OrderedDict([
+                    ('conv1', nn.Conv2d(1,20,5)),
+                    ('relu1', nn.ReLU()),
+                    ('conv2', nn.Conv2d(20,64,5)),
+                    ('relu2', nn.ReLU())
+                  ]))
+
+  print(model)
+  print(model[2]) # 通过索引获取第几个层
+  '''
+  running result：
+  Sequential(
+    (conv1): Conv2d(1, 20, kernel_size=(5, 5), stride=(1, 1))
+    (relu1): ReLU()
+    (conv2): Conv2d(20, 64, kernel_size=(5, 5), stride=(1, 1))
+    (relu2): ReLU()
+  )
+  Conv2d(20, 64, kernel_size=(5, 5), stride=(1, 1))
+  '''
+  ```
+  note:
+  
+  It can be seen from the above results that each layer has its name at this time, but it should be noted at this time that the layer cannot be obtained directly by the name, but only by the index
+  
+  That is:
+  
+  `model[2] is correct`
+  
+  `model["conv2"] is wrong` 
+  
+  This is actually implemented by its definition. Looking at the Sequential definition above, only index access is supported 
+  
