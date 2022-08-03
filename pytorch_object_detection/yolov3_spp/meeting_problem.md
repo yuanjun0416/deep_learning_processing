@@ -150,6 +150,20 @@ result:
 
 ### (6) `module = nn.Sequential()` detial usage   [model.py: twenty-six line]
 
+Its definition is as follow:
+  ```
+  class Sequential(Module): # 继承Module
+    def __init__(self, *args):  # 重写了构造函数
+    def _get_item_by_idx(self, iterator, idx):
+    def __getitem__(self, idx):
+    def __setitem__(self, idx, module):
+    def __delitem__(self, idx):
+    def __len__(self):
+    def __dir__(self):
+    def forward(self, input):  # 重写关键方法forward
+  ```
+  Sequential is a container
+
 Different implementations of the `Sequential` class (three)
 
 * first——simplest sequential model
@@ -214,4 +228,29 @@ Different implementations of the `Sequential` class (three)
   `model["conv2"] is wrong` 
   
   This is actually implemented by its definition. Looking at the Sequential definition above, only index access is supported 
+
+  third——the third implementation of Sequential 
+  ```
+  import torch.nn as nn
+  from collections import OrderedDict
+  model = nn.Sequential()
+  model.add_module("conv1",nn.Conv2d(1,20,5))
+  model.add_module('relu1', nn.ReLU())
+  model.add_module('conv2', nn.Conv2d(20,64,5))
+  model.add_module('relu2', nn.ReLU())
+
+  print(model)
+  print(model[2]) # 通过索引获取第几个层
+  ```
+  `add_module` is defined its parent class module, Sequential inherits its parent class. Its definition is as follow:
+  ```
+  def add_module(self, name, module):
+  ```
+forth——the forth implementation of Sequential
+    ```
+    module = nn.Sequential
+    module = nn.MaxPool2D(kernel_size=k, stride=stride, padding=(k-1)//2)
+    ```
+    
+  
   
