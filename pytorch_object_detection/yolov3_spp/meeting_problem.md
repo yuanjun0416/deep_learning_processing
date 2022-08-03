@@ -2,18 +2,18 @@
 
 ### (1) `img_path = os.path.join(dataset_dir.replace("labels", "images"),file_name.split(".")[0]) + ".jpg"`所遇到的一些小状况 [calculate_dataset.py: twenty-seven line]
 
-result:
+* result:
   ```
   ./my_yolo_dataset/train/images\2008_000008.jpg
   ```
-The result can be directly recognized and run in the local IDE using VScode, 
+  The result can be directly recognized and run in the local IDE using VScode, 
 but when running in an environment such as kaggle or goolge colab, an error will be reported
 
-improve the code:
+* improve the code:
   ```
   img_path = dataset_dir.replace("labels", "images") + "/" + file_name.split(".")[0] + ".jpg" 
   ```
-result:
+  result:
   ```
   ./my_yolo_dataset/train/images/2008_000008.jpg
   ```
@@ -42,7 +42,7 @@ result:
   
 ### (4) `lambda` usage [trian.py: one hundred and thirty-eight line]
 
-There are two ways to show it here, the second one is better to understand.
+  There are two ways to show it here, the second one is better to understand.
 
 * first: you can directly uncomment the following comments in the original code, and than set the breakpoint, the picture will be saved in 'LR.png'
   ```
@@ -63,9 +63,9 @@ There are two ways to show it here, the second one is better to understand.
 
     # model.yolo_layers = model.module.yolo_layers
   ```
-result:
+  result:
 
-![lambda_first_result](meeting_problem_images/lambda_first_result.png)
+  ![lambda_first_result](meeting_problem_images/lambda_first_result.png)
 
 * second: just run the following code directly
   ```
@@ -90,9 +90,9 @@ result:
   plt.plot(x,list_lf,color='blue',lw=2,linestyle='--')
   plt.show()
   ```
-result:
+  result:
 
-![lambda_second_result](meeting_problem_images/lambda_second_result.png)
+  ![lambda_second_result](meeting_problem_images/lambda_second_result.png)
 
 ### (5) `yolov3_spp.cfg` parse file [yolov3_spp.cfg]
 
@@ -150,7 +150,7 @@ result:
 
 ### (6) `module = nn.Sequential()` detial usage   [model.py: twenty-six line]
 
-Its definition is as follow:
+  Its definition is as follow:
   ```
   class Sequential(Module): # 继承Module
     def __init__(self, *args):  # 重写了构造函数
@@ -164,7 +164,7 @@ Its definition is as follow:
   ```
   Sequential is a container
 
-Different implementations of the `Sequential` class (three)
+  Different implementations of the `Sequential` class (four)
 
 * first——simplest sequential model
   ```
@@ -246,7 +246,7 @@ Different implementations of the `Sequential` class (three)
   ```
   def add_module(self, name, module):
   ```
-forth——the forth implementation of Sequential
+* forth——the forth implementation of Sequential
     ```
     module = nn.Sequential
     module = nn.MaxPool2D(kernel_size=k, stride=stride, padding=(k-1)//2)
