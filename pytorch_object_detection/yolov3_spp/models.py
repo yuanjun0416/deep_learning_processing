@@ -123,7 +123,7 @@ class YOLOLayer(nn.Module):
         self.na = len(anchors)  # number of anchors (3)
         self.nc = nc  # number of classes (80)
         self.no = nc + 5  # number of outputs (85: x, y, w, h, obj, cls1, ...)
-        self.nx, self.ny, self.ng = 0, 0, (0, 0)  # initialize number of x, y gridpoints
+        self.nx, self.ny, self.ng = 0, 0, (0, 0)  # initialize number of x, y(predict feature layers) gridpoints(gird_size)
         # 将anchors大小缩放到grid尺度
         self.anchor_vec = self.anchors / self.stride
         # batch_size, na, grid_h, grid_w, wh,
