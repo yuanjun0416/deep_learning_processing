@@ -66,10 +66,10 @@ def create_modules(modules_defs: list, img_size):
             else:
                 modules = nn.Upsample(scale_factor=mdef["stride"])
 
-        elif mdef["type"] == "route":  # [-2],  [-1,-3,-5,-6], [-1, 61]
-            layers = mdef["layers"]
-            filters = sum([output_filters[l + 1 if l > 0 else l] for l in layers])
-            routs.extend([i + l if l < 0 else l for l in layers])
+        elif mdef["type"] == "route":  # [-2],  [-1,-3,-5,-6], [-1, 61] ## why `l+1`? because `61` starts with the second one in the cfg file as 0
+            layers = mdef["layers"]    ## the number of layers of layers[-1, 64] indicates that the first module [net] in cfg is not include(meeting_problem.md-(5))  
+            filters = sum([output_filters[l + 1 if l > 0 else l] for l in layers]) ## cause out_filters[0]=[3] instead of out_filters[0]!=modules_defs[0](defined earily)
+            routs.extend([i + l if l < 0 else l for l in layers]) ## in `i+l`, `l` is English word, not number 1
             modules = FeatureConcat(layers=layers)
 
         elif mdef["type"] == "shortcut":
