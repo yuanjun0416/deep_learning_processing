@@ -96,6 +96,8 @@ but when running in an environment such as kaggle or goolge colab, an error will
 
 ### (5) `yolov3_spp.cfg` parse file [yolov3_spp.cfg]
 
+* [net] ## not involved in executing code, just interprets some parameters in the model
+
 * first:
   ```
   [convolutional]     ## convolutional layer
@@ -128,13 +130,16 @@ but when running in an environment such as kaggle or goolge colab, an error will
   
   second:
   [route]             ## splicing multi-layer output (concatenate)
-  layers=-1,-3,-5,-6
+  layers=-1, 64       ## the number of layers of layers[-1, 64] indicates that the first module [net] in cfg is not include
+                      ## because `61` starts with the second one in the cfg file as 0
   ```
+
 * fifth:
   ```
   [upsample]          ## unsample layer
   stride=2            ## unsample layer magnification
   ```
+
 * sixth:
   ```
   [yolo]
