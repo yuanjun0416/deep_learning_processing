@@ -54,14 +54,14 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                  # 当为验证集时，设置的是最终使用的网络大小
                  img_size=416,
                  batch_size=16,
-                 augment=False,  # 训练集设置为True(augment_hsv)，验证集设置为False
+                 augment=False,  # 训练集设置为True(augment_hsv(hsv——data augmentation technology))，验证集设置为False 
                  hyp=None,  # 超参数字典，其中包含图像增强会使用到的超参数
                  rect=False,  # 是否使用rectangular training
                  cache_images=False,  # 是否缓存图片到内存中
                  single_cls=False, pad=0.0, rank=-1):
 
         try:
-            path = str(Path(path))
+            path = str(Path(path))   ## 'data/my_train_data.txt'->'data\\my_train_data.txt' [meeting_problem.md-(7)]
             # parent = str(Path(path).parent) + os.sep
             if os.path.isfile(path):  # file
                 # 读取对应my_train/val_data.txt文件，读取每一行的图片路劲信息
@@ -72,7 +72,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
 
             # 检查每张图片后缀格式是否在支持的列表中，保存支持的图像路径
             # img_formats = ['.bmp', '.jpg', '.jpeg', '.png', '.tif', '.dng']
-            self.img_files = [x for x in f if os.path.splitext(x)[-1].lower() in img_formats]
+            self.img_files = [x for x in f if os.path.splitext(x)[-1].lower() in img_formats] ## set breakpoint to the usage of `os.path.splitext()`
             self.img_files.sort()  # 防止不同系统排序不同，导致shape文件出现差异
         except Exception as e:
             raise FileNotFoundError("Error loading data from {}. {}".format(path, e))
@@ -83,7 +83,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
 
         # batch index
         # 将数据划分到一个个batch中
-        bi = np.floor(np.arange(n) / batch_size).astype(np.int)
+        bi = np.floor(np.arange(n) / batch_size).astype(np.int)  ## [meeting_problem,md-(8)]
         # 记录数据集划分后的总batch数
         nb = bi[-1] + 1  # number of batches
 
