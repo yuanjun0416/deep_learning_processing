@@ -149,8 +149,8 @@ class YOLOLayer(nn.Module):
         if not self.training:  # 训练模式不需要回归到最终预测boxes
             yv, xv = torch.meshgrid([torch.arange(self.ny, device=device),
                                      torch.arange(self.nx, device=device)])
-            # batch_size, na, grid_h, grid_w, wh
-            self.grid = torch.stack((xv, yv), 2).view((1, 1, self.ny, self.nx, 2)).float()
+            # batch_size, na, grid_h, grid_w, wh ## can set breakpoint to veiw value
+            self.grid = torch.stack((xv, yv), 2).view((1, 1, self.ny, self.nx, 2)).float() ## self.grid: coordinates of the upper left corner of each grid cell(feature map)
 
         if self.anchor_vec.device != device:
             self.anchor_vec = self.anchor_vec.to(device)
@@ -162,7 +162,7 @@ class YOLOLayer(nn.Module):
         else:
             bs, _, ny, nx = p.shape  # batch_size, predict_param(255), grid(13), grid(13)
             if (self.nx, self.ny) != (nx, ny) or self.grid is None:  # fix no grid bug
-                self.create_grids((nx, ny), p.device)
+                self.create_grids((nx, ny), p.device) ## create self.grid
 
         # view: (batch_size, 255, 13, 13) -> (batch_size, 3, 85, 13, 13)
         # permute: (batch_size, 3, 85, 13, 13) -> (batch_size, 3, 13, 13, 85)
@@ -191,7 +191,7 @@ class YOLOLayer(nn.Module):
         else:  # inference
             # [bs, anchor, grid, grid, xywh + obj + classes]
             io = p.clone()  # inference output
-            io[..., :2] = torch.sigmoid(io[..., :2]) + self.grid  # xy 计算在feature map上的xy坐标
+            io[..., :2] = torch.sigmoid(io[..., :2]) + self.grid  # xy 计算在feature map上的xy坐标(note: not original picture)
             io[..., 2:4] = torch.exp(io[..., 2:4]) * self.anchor_wh  # wh yolo method 计算在feature map上的wh
             io[..., :4] *= self.stride  # 换算映射回原图尺度
             torch.sigmoid_(io[..., 4:])
