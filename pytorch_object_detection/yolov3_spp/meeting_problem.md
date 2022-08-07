@@ -257,5 +257,53 @@ but when running in an environment such as kaggle or goolge colab, an error will
     module = nn.MaxPool2D(kernel_size=k, stride=stride, padding=(k-1)//2)
     ```
     
+### (7) `Path(path)`的用法  [build_utils/dataset.py: sixty-four lines]
+    
+  Path(): 该模块提供表示文件系统路径的类，其语义适用于不同的操作系统。路径类被分为提供纯计算操作而没有I/O的纯路径，以及从纯路径继承而来但提供I/O操作的具体路径。
   
+  How to get file path
+   
+   (1) name: the last part of the file path
+   
+   (2) suffix: the extension of the last part of the file path
+   
+   (3) stem: the last part of the file path without the suffix
+   
+   (4) suffixes: multiple extensions for file path
+   
+   (5) with_suffix(suffix): add the extension to the end of the file and return a new path, if the extension exists, it is invalid
+   
+   (6) with_name(name): replace the last part of file path, returning the new path
+    
+    ```
+    p = Path('/etc/config/system/cf.config.gz')
+    print(p.name)     #cf.config.gz
+    print(p.suffix)      #.gz
+    print(p.suffixes)    #['.config', '.gz']
+    print(p.stem)    #cf.config
+    print(p.with_name('cf.config')) 
+    #/etc/config/system/cf.config
+    print(p.with_suffix('.txt'))
+    #/etc/config/system/cf.config.txt
+    ```
+
+### (8) `bi = np.floor(np.arange(n) / batch_size).astype(np.int)`详解  [build_utils/dataset.py: eighty-six line]
+
+  read the following code directly
+  ```
+  import numpy as np
+
+  batch_size = 4
+  n = 10
+
+  bi = np.arange(n)  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  print(bi)
+  bi = bi/batch_size # [0., 0.25, 0.5,  0.75, 1., 1.25, 1.5, 1.75, 2., 2.25]
+  print(bi)
+  bi = np.floor(bi)  # output:[0., 0., 0., 0., 1., 1., 1., 1., 2., 2.]  effect: round down(向下取整)
+  print(bi)
+
+  bi = bi//batch_size # [0., 0., 0., 0., 1., 1., 1., 1., 2., 2.] 
+  print(bi)
+  ```
   
