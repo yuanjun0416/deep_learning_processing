@@ -34,7 +34,7 @@ def exif_size(img):
     # Returns exif-corrected PIL size
     s = img.size  # (width, height)
     try:
-        rotation = dict(img._getexif().items())[orientation]
+        rotation = dict(img._getexif().items())[orientation] ## [meeting_problem.md-(9)]
         if rotation == 6:  # rotation 270  顺时针翻转90度
             s = (s[1], s[0])
         elif rotation == 8:  # ratation 90  逆时针翻转90度
