@@ -307,3 +307,12 @@ but when running in an environment such as kaggle or goolge colab, an error will
   print(bi)
   ```
   
+### (9) `rotation = dict(img._getexif().items())[orientation]` 为什么要使用这个东西 [build_utils/dataset.py: thirty-seven line]
+
+可以看一下这两个链接：[http](https://blog.csdn.net/qq_34367804/article/details/72906145)
+https://blog.csdn.net/mizhenpeng/article/details/82794112
+
+* 对于手机、相机等设备拍摄的照片，由于手持方向的不同，拍出来的照片可能是旋转0°、90°、180°和270°。即使在电脑上利用软件将其转正，他们的exif信息中还是会保留方位信息。
+在用PIL读取这些图像时，读取的是原始数据，也就是说，即使电脑屏幕上显示是正常的照片，用PIL读进来后，也可能是旋转的图像，并且图片的size也可能与屏幕上的不一样。
+
+* 压缩图片。本来是很简单需求，三下五除二就写好了，但是在自己用手机上传图片的时候发现压缩后的图片都歪了，查了一下，原因是图片中的exif信息中的Orientation记录中图片的旋转角度。需要根据这个来旋转图片。
