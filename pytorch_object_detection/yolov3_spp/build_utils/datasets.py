@@ -147,17 +147,17 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
             # 计算每个batch采用的统一尺度
             shapes = [[1, 1]] * nb  # nb: number of batches
             for i in range(nb):
-                ari = ar[bi == i]  # bi: batch index
+                ari = ar[bi == i]  # bi: batch index ## 比如: ar=[0, 1, 2, 3], ari=ar[[True, True, Fales, False]]=[0, 1]
                 # 获取第i个batch中，最小和最大高宽比
                 mini, maxi = ari.min(), ari.max()
 
                 # 如果高/宽小于1(w > h)，将w设为img_size
                 if maxi < 1:
-                    shapes[i] = [maxi, 1]
+                    shapes[i] = [maxi, 1]  ## [h, w]: (maxi: h相对指定尺度的比例, 1: w相对于指定尺度的比例)
                 # 如果高/宽大于1(w < h)，将h设置为img_size
                 elif mini > 1:
                     shapes[i] = [1, 1 / mini]
-            # 计算每个batch输入网络的shape值(向上设置为32的整数倍)
+            # 计算每个batch输入网络的shape值(向上设置为32的整数倍) ## np.ceil()是向上取整, np.floor()是向下取整
             self.batch_shapes = np.ceil(np.array(shapes) * img_size / 32. + pad).astype(np.int) * 32
 
         # cache labels
