@@ -153,10 +153,10 @@ cfg_path = "./cfg/yolov3-spp.cfg"
    
 
 
-## 如果对YOLOv3 SPP网络原理不是很理解可参考我的bilibili
+## 如果对YOLOv3 SPP网络原理不是很理解可参考原作者(非本人)的bilibili
 [https://www.bilibili.com/video/BV1yi4y1g7ro?p=3](https://www.bilibili.com/video/BV1yi4y1g7ro?p=3)
 
-## 进一步了解该项目，以及对YOLOv3 SPP代码的分析可参考我的bilibili
+## 进一步了解该项目，以及对YOLOv3 SPP代码的分析可参考原作者(非本人)的bilibili
 [https://www.bilibili.com/video/BV1t54y1C7ra](https://www.bilibili.com/video/BV1t54y1C7ra)
 
 ## YOLOv3 SPP框架图
