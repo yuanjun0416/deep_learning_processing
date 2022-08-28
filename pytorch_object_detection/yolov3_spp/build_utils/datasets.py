@@ -258,6 +258,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
             np.save(np_labels_path, self.labels)  # save for next time
 
         # Cache images into memory for faster training (Warning: large datasets may exceed system RAM)
+        # 没有什么太大的用处，在使用多GPU时，会每一个进程都缓存一次，占用资源
         if cache_images:  # if training
             gb = 0  # Gigabytes of cached images 用于记录缓存图像占用RAM大小
             if rank in [-1, 0]:
