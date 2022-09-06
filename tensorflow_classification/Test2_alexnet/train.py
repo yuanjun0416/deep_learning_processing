@@ -82,7 +82,7 @@ def main():
 
     callbacks = [tf.keras.callbacks.ModelCheckpoint(filepath='./save_weights/myAlex.h5',
                                                     save_best_only=True,
-                                                    save_weights_only=True,
+                                                    save_weights_only=True,  ## 仅保存模型权重参数, 不保存模型图结构, 具体可见meeting_problem.md(1)
                                                     monitor='val_loss')]
 
     # tensorflow2.1 recommend to using fit
