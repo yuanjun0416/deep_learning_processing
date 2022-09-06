@@ -7,12 +7,12 @@ import time
 import glob
 import random
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"    ## 这里设置的是tensorflow能发现几块GPU
 
 
 def main():
     gpus = tf.config.experimental.list_physical_devices("GPU")
-    if gpus:
+    if gpus: ## 是让模型根据自己的参数大小占用相应的GPU内存空间, 如果不设置, 就会出现模型只有200M, 但是却占用GPU全部的内存使用空间的情况
         try:
             for gpu in gpus:
                 tf.config.experimental.set_memory_growth(gpu, True)
