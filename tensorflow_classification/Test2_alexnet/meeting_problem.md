@@ -1,6 +1,6 @@
 # meeting_problem
 
-### (1) model.save()和model.save_weights()的区别(tensorflow.keras, 其它的深度学习框架大同小异)
+### (1) model.save()和model.save_weights()的区别(tensorflow.keras, 其它的深度学习框架大同小异)  trian.py: eighty-six line
   
   * model.save保存了模型的图结构和模型的参数, 保存模型的后缀为.hdf5或.h5(查看其它的文章)
     ```
