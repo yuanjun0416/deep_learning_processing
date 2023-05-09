@@ -1,1 +1,19 @@
+## YOLOV4：You Only Look Once目标检测模型在pytorch当中的实现
+---
+本README.md是我自己训练过程中总结的，原代码为README_original.md(原先的也看一下，会有一些细节在其中)。本代码来自WongKinYiu/PyTorch_Yolov4,https://github.com/WongKinYiu/PyTorch_YOLOv4
 
+## 实验环境
+pytorch == 
+
+## 预训练权重下载
+本代码是使用的是WongKinYiu搭建的模仿Yolov5版本的，我下载不下来原作者的预训练权重链接，不过有u3（Yolov3）版本的预训练权重
+如要使用u3, 训练所使用的权重可在百度网盘中下载（我未尝试过）
+
+该u3预训练权重是不能在u5中使用的，会出现报错
+
+## 训练步骤
+### 训练自己的数据集
+#### 一 训练权重
+1. 本代码因为无法下载u5的预训练权重，所以未使用迁移学习的方法进行训练、
+
+#### 二、数据集的准备
