@@ -1,0 +1,6 @@
+# train and val datasets (image directory or *.txt file with image paths)
+train: ./datasets/train.txt
+val: ./datasets/val.txt
+
+nc: 2
+names: ['fire', 'smoke']
