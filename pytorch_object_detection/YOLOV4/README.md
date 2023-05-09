@@ -36,7 +36,9 @@ classes = 2
 fileters=21
 ```
 注意这里的`classes=n`时，`filters`的计算公式
-![./images/cfg.png](cfg.png)
+![./images/cfg](./images/cfg.png)
+
+4. data/custom.yaml的修改，这个就按照这个yaml的格式修改即可
 
 
 ### 四 开始训练
