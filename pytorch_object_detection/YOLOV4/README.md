@@ -29,7 +29,15 @@ indices.append((b, a, gj.clamp_(0, int(gain[3]) - 1), gi.clamp_(0, int(gain[2]) 
 ```python
 return torch.tensor(targets).cpu().numpy()
 ```
-3. cfg/custom.cfg(这里使用的yolov4-pacsp.cfg),相当于是修改了
+3. cfg/custom.cfg(这里使用的yolov4-pacsp.cfg),相当于将yolov4-pacsp.cfg中的检测头换成自己的classes和filters
+line 1247 line 1240 line 1138 line 1131 line 1029 line 1022
+```python
+classes = 2
+fileters=21
+```
+注意这里的`classes=n`时，`filters`的计算公式
+![./images/cfg.png](cfg.png)
+
 
 ### 四 开始训练
 ```python
