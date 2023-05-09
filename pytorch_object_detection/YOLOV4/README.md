@@ -29,5 +29,10 @@ indices.append((b, a, gj.clamp_(0, int(gain[3]) - 1), gi.clamp_(0, int(gain[2]) 
 ```python
 return torch.tensor(targets).cpu().numpy()
 ```
+3. cfg/custom.cfg(这里使用的yolov4-pacsp.cfg),相当于是修改了
 
 ### 四 开始训练
+```python
+python train.py --device 0 --batch-size 8 --img 640 640 --data custom.yaml --cfg cfg/custom.cfg --weights ' ' --name custom
+```
+1. 注意上面的`--weight ' '`代表的是未使用预训练权重进行训练
