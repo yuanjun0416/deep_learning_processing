@@ -2,12 +2,18 @@
 ---
 本README.md是我自己训练过程中总结的，原代码为README_original.md(原先的也看一下，会有一些细节在其中)。本代码来自WongKinYiu/PyTorch_Yolov4,https://github.com/WongKinYiu/PyTorch_YOLOv4
 
-## 实验环境
-pytorch == 
+## 实验环境(我所使用的环境)
+* python 3.10.2 
+* pytorch 1.12.1
+* cu113
+* pycocotools(Linux: `pip install pycocotools`;   
+  Windows: `pip install pycocotools-windows`(不需要额外安装vs))
 
 ## 预训练权重下载
 本代码是使用的是WongKinYiu搭建的模仿Yolov5版本的，我下载不下来原作者的预训练权重链接，不过有u3（Yolov3）版本的预训练权重
-如要使用u3, 训练所使用的权重可在百度网盘中下载（我未尝试过）
+如要使用u3, 训练所使用的权重可在百度网盘中下载（我未尝试过） \
+链接：https://pan.baidu.com/s/1cXgy7oRVvHHSqWmjegzsxA \
+提取码：xxxx
 
 该u3预训练权重是不能在u5中使用的，会出现报错
 
