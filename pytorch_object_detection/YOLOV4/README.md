@@ -26,7 +26,8 @@
 1. 直接使用Yolov5格式的数据集即可
 2. 具体的模版可参考datasets文件夹
 
-### 三 训练之前修改代码，如不修改，本环境下会报错
+### 三 训练之前修改代码，如不修改，本环境下会报错(已修改，运行时，您也可以先修改回来，看看是不是会报错)
+#### 如不报错，可不修改
 1. utils/loss.py中line 168代码修改如下
 ```python
 indices.append((b, a, gj.clamp_(0, int(gain[3]) - 1), gi.clamp_(0, int(gain[2]) - 1)))  # image, anchor, grid indices
@@ -35,6 +36,7 @@ indices.append((b, a, gj.clamp_(0, int(gain[3]) - 1), gi.clamp_(0, int(gain[2]) 
 ```python
 return torch.tensor(targets).cpu().numpy()
 ```
+#### 必修改
 3. cfg/custom.cfg(这里使用的yolov4-pacsp.cfg),相当于将yolov4-pacsp.cfg中的检测头换成自己的classes和filters
 line 1247 line 1240 line 1138 line 1131 line 1029 line 1022
 ```python
