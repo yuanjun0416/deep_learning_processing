@@ -16,4 +16,18 @@ pytorch ==
 #### 一 训练权重
 1. 本代码因为无法下载u5的预训练权重，所以未使用迁移学习的方法进行训练、
 
-#### 二、数据集的准备
+#### 二 数据集的准备
+1. 直接使用Yolov5格式的数据集即可
+2. 具体的模版可参考datasets文件夹
+
+### 三 训练之前修改代码，如不修改，本环境下会报错
+1. utils/loss.py中line 168代码修改如下
+```python
+indices.append((b, a, gj.clamp_(0, int(gain[3]) - 1), gi.clamp_(0, int(gain[2]) - 1)))  # image, anchor, grid indices
+```
+2. utils/plots.py中line 108代码修改如下
+```python
+return torch.tensor(targets).cpu().numpy()
+```
+
+### 四 开始训练
